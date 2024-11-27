@@ -1,5 +1,10 @@
-# CIS_Server_Config_Scripts
-Scripts for Server Configuration Review assessments for Ubuntu 20.04 and Ubuntu 22.04.
+# CIS_Config_Review_Scripts
+
+Scripts for Configuration Review assessments for:
+- Ubuntu 20.04 and Ubuntu 22.04
+- Windows Server 2016, 2019, 2022
+
+## For Ubuntu:
 
 The script generates result2004.csv and result2204.csv files for 20.04 and 22.04 versions respectively.
 
@@ -20,3 +25,7 @@ Commands:
 sudo bash CIS_Config_Script_Ubuntu_20.04.sh | tee output2004.txt
 sudo bash CIS_Config_Script_Ubuntu_22.04.sh | tee output2204.txt
 ```
+
+## For Windows Server:
+
+The scripts are currently in progress.
