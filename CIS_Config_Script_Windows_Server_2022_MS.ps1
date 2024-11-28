@@ -806,6 +806,7 @@ Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows NT\Printe
 Write-Output '====';
 $testcase = "18.7.8 (L1) Ensure 'Limits print driver installation to Administrators' is set to 'Enabled'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows NT\Printers\PointAndPrint' -Name 'RestrictDriverInstallationToAdministrators';
 Write-Output '====';
 $testcase = "18.7.9 (L1) Ensure 'Manage processing of Queue-specific files' is set to 'Enabled: Limit Queue-specific files to Color profiles'"
 Write-Output "$testcase"
@@ -861,6 +862,7 @@ Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -
 Write-Output '====';
 $testcase = "18.9.19.7 (L1) Ensure 'Turn off background refresh of Group Policy' is set to 'Disabled'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'DisableBkGndGroupPolicy';
 Write-Output '====';
 $testcase = "18.9.20.1.1 Ensure 'Turn off downloading of print drivers over HTTP' is set to 'Enabled'"
 Write-Output "$testcase"
@@ -872,30 +874,39 @@ Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Pol
 Write-Output '====';
 $testcase = "18.9.24.1 (L1) Ensure 'Enumeration policy for external devices incompatible with Kernel DMA Protection' is set to 'Enabled: Block All'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows\Kernal DMA Protection' -Name 'DeviceEnumerationPolicy';
 Write-Output '====';
 $testcase = "18.9.25.1 (L1) Ensure 'Configure password backup directory' is set to 'Enabled: Active Directory' or 'Enabled: Azure Active Directory'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'BackupDirectory';
 Write-Output '====';
 $testcase = "18.9.25.2 (L1) Ensure 'Do not allow password expiration time longer than required by policy' is set to 'Enabled'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PwdExpirationProtectionEnabled';
 Write-Output '====';
 $testcase = "18.9.25.3 (L1) Ensure 'Enable password encryption' is set to 'Enabled'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'ADPasswordEncryptionEnabled';
 Write-Output '====';
 $testcase = "18.9.25.4 (L1) Ensure 'Password Settings: Password Complexity' is set to 'Enabled: Large letters + small letters + numbers + special characters'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PasswordComplexity';
 Write-Output '====';
 $testcase = "18.9.25.5 (L1) Ensure 'Password Settings: Password Length' is set to 'Enabled: 15 or more'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PasswordLength';
 Write-Output '====';
 $testcase = "18.9.25.6 (L1) Ensure 'Password Settings: Password Age (Days)' is set to 'Enabled: 30 or fewer'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PasswordAgeDays';
 Write-Output '====';
 $testcase = "18.9.25.7 (L1) Ensure 'Post-authentication actions: Grace period (hours)' is set to 'Enabled: 8 or fewer hours, but not 0'"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PostAuthenticationResetDelay';
 Write-Output '====';
 $testcase = "18.9.25.8 (L1) Ensure 'Post-authentication actions: Actions' is set to 'Enabled: Reset the password and logoff the managed account' or higher"
 Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\LAPS' -Name 'PostAuthenticationActions';
 Write-Output '====';
 $testcase = "18.9.28.1 (L1) Ensure 'Block user from showing account details on sign-in' is set to 'Enabled'"
 Write-Output "$testcase"
