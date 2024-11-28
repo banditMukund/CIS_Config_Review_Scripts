@@ -45,6 +45,7 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'AllowAdminAccountLockout';
 Write-Output '====';
 $testcase = "1.2.4 (L1) Ensure 'Reset account lockout counter after' is set to '15 or more minute(s)'"
+Write-Output "$testcase"
 Select-String -Path C:\temp\secpol.cfg -Pattern "ResetLockoutCount"
 Write-Output '====';
 $testcase = "2.2.1 (L1) Ensure 'Access Credential Manager as a trusted caller' is set to 'No One'"
@@ -200,6 +201,7 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'NoConnectedUser';
 Write-Output '====';
 $testcase = "2.3.1.2 (L1) Ensure 'Accounts: Guest account status' is set to 'Disabled' (MS only)"
+Write-Output "$testcase"
 net user guest | select-string -pattern 'Account active';
 Get-LocalUser -Name Guest | Select-Object -Property Name, Enabled
 Write-Output '====';
@@ -208,9 +210,11 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\System\CurrentControlSet\Control\Lsa' -Name 'LimitBlankPasswordUse';
 Write-Output '====';
 $testcase = "2.3.1.4 (L1) Configure 'Accounts: Rename administrator account'"
+Write-Output "$testcase"
 Get-LocalUser | Where-Object { $_.SID -like 'S-1-5-*-500' } | Select-Object Name
 Write-Output '====';
 $testcase = "2.3.1.5 (L1) Configure 'Accounts: Rename guest account'"
+Write-Output "$testcase"
 Get-LocalUser | Where-Object { $_.SID -like 'S-1-5-*-501' } | Select-Object Name
 Write-Output '====';
 $testcase = "2.3.2.1 (L1) Ensure 'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings' is set to 'Enabled'"
@@ -280,11 +284,8 @@ Write-Output '====';
 $testcase = "2.3.7.9 (L1) Ensure 'Interactive logon: Smart card removal behavior' is set to 'Lock Workstation' or higher"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'ScRemoveOption';
-Write-Output '====';
-
-#Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AllocateDASD';
-
+Write-Output '====';
 $testcase = "2.3.8.1 (L1) Ensure 'Microsoft network client: Digitally sign communications (always)' is set to 'Enabled'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\System\CurrentControlSet\Services\LanmanWorkstation\Parameters' -Name 'RequireSecuritySignature';
@@ -318,6 +319,8 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters' -Name 'SMBServerNameHardeningLevel';
 Write-Output '====';
 $testcase = "2.3.10.1 (L1) Ensure 'Network access: Allow anonymous SID/Name translation' is set to 'Disabled'"
+Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\System\CurrentControlSet\Control\Lsa' -Name 'TurnOffAnonymousBlock';
 Write-Output '====';
 $testcase = "2.3.10.2 (L1) Ensure 'Network access: Do not allow anonymous enumeration of SAM accounts' is set to 'Enabled' (MS only)"
 Write-Output "$testcase"
@@ -568,7 +571,7 @@ auditpol /get /subcategory:'User Account Management' | select-string -pattern 'U
 Write-Output '====';
 $testcase = "17.3.1 (L1) Ensure 'Audit PNP Activity' is set to include 'Success'"
 Write-Output "$testcase"
-auditpol /get /subcategory:"PNP Activity"
+auditpol /get /subcategory:"Plug and Play Events"
 Write-Output '====';
 $testcase = "17.3.2 (L1) Ensure 'Audit Process Creation' is set to include 'Success'"
 Write-Output "$testcase"
@@ -608,7 +611,7 @@ auditpol /get /subcategory:"File Share"
 Write-Output '====';
 $testcase = "17.6.3 (L1) Ensure 'Audit Other Object Access Events' is set to 'Success and Failure'"
 Write-Output "$testcase"
-auditpol /get /subcategory:"Audit Other Object Access Events"
+auditpol /get /subcategory:"Other Object Access Events"
 Write-Output '====';
 $testcase = "17.6.4 (L1) Ensure 'Audit Removable Storage' is set to 'Success and Failure'"
 Write-Output "$testcase"
@@ -688,6 +691,8 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters' -Name 'SMB1';
 Write-Output '====';
 $testcase = "18.4.5 (L1) Ensure 'Enable Certificate Padding' is set to 'Enabled'"
+Write-Output "$testcase"
+Get-ItemPropertyValue -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\KDC' -Name 'EnableCertPadding'
 Write-Output '====';
 $testcase = "18.4.6 (L1) Ensure 'Enable Structured Exception Handling Overwrite Protection (SEHOP)' is set to 'Enabled'"
 Write-Output "$testcase"
@@ -696,9 +701,8 @@ Write-Output '====';
 $testcase = "18.4.7 (L1) Ensure 'LSA Protection' is set to 'Enabled'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name 'RunAsPPL';
-Write-Output '====';
-#Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows NT\Printers\PointAndPrint' -Name 'RestrictDriverInstallationToAdministrators';
+Write-Output '====';
 $testcase = "18.4.8 (L1) Ensure 'NetBT NodeType configuration' is set to 'Enabled: P-node (recommended)'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters' -Name 'NodeType';
@@ -770,8 +774,6 @@ Write-Output '====';
 $testcase = "18.6.14.1 (L1) Ensure 'Hardened UNC Paths' is set to 'Enabled, with 'Require Mutual Authentication', 'Require Integrity', and 'Require Privacy' set for all NETLOGON and SYSVOL shares'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths' -Name '\\*\NETLOGON';
-Write-Output '====';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths' -Name '\\*\SYSVOL';
 Write-Output '====';
 $testcase = "18.6.21.1 (L1) Ensure 'Minimize the number of simultaneous connections to the Internet or a Windows Domain' is set to 'Enabled: 1 = Minimize simultaneous connections'"
@@ -803,6 +805,7 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows NT\Printers\RPC' -Name 'RpcTcpPort';
 Write-Output '====';
 $testcase = "18.7.8 (L1) Ensure 'Limits print driver installation to Administrators' is set to 'Enabled'"
+Write-Output "$testcase"
 Write-Output '====';
 $testcase = "18.7.9 (L1) Ensure 'Manage processing of Queue-specific files' is set to 'Enabled: Limit Queue-specific files to Color profiles'"
 Write-Output "$testcase"
@@ -857,6 +860,7 @@ Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableCdp';
 Write-Output '====';
 $testcase = "18.9.19.7 (L1) Ensure 'Turn off background refresh of Group Policy' is set to 'Disabled'"
+Write-Output "$testcase"
 Write-Output '====';
 $testcase = "18.9.20.1.1 Ensure 'Turn off downloading of print drivers over HTTP' is set to 'Enabled'"
 Write-Output "$testcase"
@@ -1093,23 +1097,14 @@ Write-Output '====';
 $testcase = "18.10.42.6.1.2 (L1) Ensure 'Configure Attack Surface Reduction rules: Set the state for each ASR rule' is configured"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '26190899-1602-49e8-8b27-eb1d0a1ce869';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '3b576869-a4ec-4529-8536-b80a7769e899';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '56a863a9-875e-4185-98a7-b882c64b5ce5';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '5beb7efe-fd9a-4556-801d-275e5ffc04cc';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name '9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name 'b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name 'be9ba2d9-53ea-4cdc-84e5-9b1eeee46550';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules' -Name 'd4f940ab-401b-4efc-aadc-ad5f3c50688a';
 
 Write-Output '====';
@@ -1208,7 +1203,6 @@ Write-Output '====';
 $testcase = "18.10.75.2.1 (L1) Ensure 'Configure Windows Defender SmartScreen' is set to 'Enabled: Warn and prevent bypass'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows\System' -Name 'EnableSmartScreen';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'ShellSmartScreenLevel';
 Write-Output '====';
 $testcase = "18.10.79.2 (L1) Ensure 'Allow Windows Ink Workspace' is set to 'Enabled: On, but disallow access above lock' OR 'Enabled: Disabled'"
@@ -1274,13 +1268,11 @@ Write-Output '====';
 $testcase = "18.10.92.4.2 (L1) Ensure 'Select when Preview Builds and Feature Updates are received' is set to 'Enabled: 180 or more days'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' -Name 'DeferFeatureUpdates';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows\Windowsupdate' -Name 'DeferFeatureUpdatesPeriodInDays';
 Write-Output '====';
 $testcase = "18.10.92.4.3 (L1) Ensure 'Select when Quality Updates are received' is set to 'Enabled: 0 days'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' -Name 'DeferQualityUpdates';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' -Name 'DeferQualityUpdatesPeriodInDays';
 Write-Output '====';
 $testcase = "19.5.1.1 (L1) Ensure 'Turn off toast notifications on the lock screen' is set to 'Enabled'"
