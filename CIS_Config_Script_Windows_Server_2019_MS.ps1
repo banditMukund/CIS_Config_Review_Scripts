@@ -519,7 +519,6 @@ Write-Output '====';
 $testcase = "9.3.2 (L1) Ensure 'Windows Firewall: Public: Inbound connections' is set to 'Block (default)'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\WindowsFirewall\PublicProfile' -Name 'DefaultInboundAction';
-Write-Output '====';
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\WindowsFirewall\PublicProfile' -Name 'DefaultOutboundAction';
 Write-Output '====';
 $testcase = "9.3.3 (L1) Ensure 'Windows Firewall: Public: Settings: Display a notification' is set to 'No'"
@@ -1207,7 +1206,6 @@ Write-Output '====';
 $testcase = "18.10.75.2.1 (L1) Ensure 'Configure Windows Defender SmartScreen' is set to 'Enabled: Warn and prevent bypass'"
 Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\Software\Policies\Microsoft\Windows\System' -Name 'EnableSmartScreen';
-Write-Output "$testcase"
 Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'ShellSmartScreenLevel';
 Write-Output '====';
 $testcase = "18.10.79.2 (L1) Ensure 'Allow Windows Ink Workspace' is set to 'Enabled: On, but disallow access above lock' OR 'Enabled: Disabled'"
